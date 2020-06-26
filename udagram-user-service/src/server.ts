@@ -6,28 +6,34 @@ import {IndexRouter} from './controllers/v0/index.router';
 
 import bodyParser from 'body-parser';
 import {config} from './config/config';
-import {V0_FEED_MODELS, V0_USER_MODELS} from './controllers/v0/model.index';
+import { V0_USER_MODELS} from './controllers/v0/model.index';
 
 
 (async () => {
-  await sequelize.addModels(V0_FEED_MODELS);
   await sequelize.addModels(V0_USER_MODELS);
   await sequelize.sync();
 
   const app = express();
-  const port = process.env.PORT || 8080;
+  const port = process.env.PORT || 9090;
 
   app.use(bodyParser.json());
 
-  app.use(cors({
-    allowedHeaders: [
-      'Origin', 'X-Requested-With',
-      'Content-Type', 'Accept',
-      'X-Access-Token', 'Authorization',
-    ],
-    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-    origin: config.url,
-  }));
+  // app.use(cors({
+  //   allowedHeaders: [
+  //     'Origin', 'X-Requested-With',
+  //     'Content-Type', 'Accept',
+  //     'X-Access-Token', 'Authorization',
+  //   ],
+  //   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  //   origin: config.url,
+  // }));
+
+  //CORS Should be restricted
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", config.url);
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+  });
 
   app.use('/api/v0/', IndexRouter);
 

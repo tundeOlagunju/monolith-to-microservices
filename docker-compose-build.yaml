@@ -1,0 +1,19 @@
+version: "3"
+services:
+  udagram-feed-service:
+    build:
+      context: ./udagram-feed-service/
+    image: tundeolagunju/udagram-feed-service:latest
+  udagram-user-service:
+    build:
+      context: ./udagram-user-service
+    image: tundeolagunju/udagram-user-service:latest
+  udagram-frontend:
+    build:
+      context: ./udagram-frontend
+    image: tundeolagunju/udagram-frontend:latest
+  reverse-proxy:
+    build:
+      context: ./reverse-proxy
+    image: tundeolagunju/reverse-proxy:latest
+

@@ -105,8 +105,6 @@ router.post('/', async (req: Request, res: Response) => {
   });
 
   const savedUser = await newUser.save();
-
-
   const jwt = generateJWT(savedUser);
   res.status(201).send({token: jwt, user: savedUser.short()});
 });
