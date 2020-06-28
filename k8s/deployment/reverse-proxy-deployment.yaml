@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: reverse-proxy
+  name: reverse-proxy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      service: reverse-proxy
+  template:
+    metadata:
+      labels:
+        service: reverse-proxy
+    spec:
+      containers:
+        - image: tundeolagunju/reverse-proxy:latest
+          name: reverse-proxy
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "400m"
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
